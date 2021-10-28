@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ShopList.Models.Shop>
+@{
+    ViewBag.Title = "ShopList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Список магазинов.</h1>
+<table class="table">
+    <tr><th>Название магазина</th><th>Адрес</th><th>Время работы</th><th>товары</th></tr>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.ShopName</td><td>@item.ShopAdress</td><td>@item.OpeningTime</td><td><a asp-controller="Home" asp-action="ShowProducts" asp-route-Id="@item.ShopId">Товары</a></td></tr>
+    }
+</table>
