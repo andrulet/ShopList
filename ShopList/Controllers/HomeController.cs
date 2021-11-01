@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShopList.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ShopList.Controllers
 {
@@ -27,7 +28,13 @@ namespace ShopList.Controllers
         [HttpGet]
         public IActionResult ShowProducts(int? id)
         {
-            return View(db.Products.Where(p => p.ShopId == id));
+            List<Product> products = db.Products.Where(p => p.ShopId == id).ToList();
+            if (products.Count == 0)
+            {
+                products.Add(new Product() { ShopId = (int)id });
+            }
+
+            return View(products);
         }
 
         [HttpGet]
@@ -86,7 +93,7 @@ namespace ShopList.Controllers
         {
             if (id != null)
             {
-                Product product = db.Products.FirstOrDefault(p => p.ProductId == id);
+                Product product = new Product() { ProductId = db.Products.Max(p => p.ProductId) + 1, ShopId = (int)id};
                 if (product != null)
                     return View(product);
             }

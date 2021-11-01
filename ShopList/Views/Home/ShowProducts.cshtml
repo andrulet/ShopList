@@ -4,19 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Список товаров в магазине.</h1>
-<table class="table">    
-    <tr><th>Название товара</th><th>Описание товара</th><th>Действия</th></tr>
-    @foreach (var item in Model)
-    {
-        <tr><td>@item.ProductName</td>
-            <td>@item.ProductDescription</td>
-            <td>                
-                <a asp-controller="Home" asp-action="Edit" asp-route-Id="@item.ProductId">Изменить</a> |
-                <a asp-controller="Home" asp-action="Delete" asp-route-Id="@item.ProductId">Удалить</a>
-            </td>
-        </tr>
-    }
-</table>
+
+@if (Model.ToList()[0].ProductId != 0)
+{
+    <h1>Список товаров в магазине.</h1>
+    <table class="table">
+        <tr><th>Название товара</th><th>Описание товара</th><th>Действия</th></tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.ProductDescription</td>
+                <td>
+                    <a asp-controller="Home" asp-action="Edit" asp-route-Id="@item.ProductId">Изменить</a> |
+                    <a asp-controller="Home" asp-action="Delete" asp-route-Id="@item.ProductId">Удалить</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h2>Товар в магазине отсутствует. Выможете добавить товар.</h2>
+}
 <br>
 <a id="link" asp-action="Create" asp-controller="Home" asp-route-id="@Model.ToList()[0].ShopId">Добавить товар</a>
